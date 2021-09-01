@@ -1,0 +1,10 @@
+#home_principal_container{
+    width: 100vw;
+    min-height: 80vh;
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

@@ -1,0 +1,8 @@
+#navbar_principal_container{
+    width: 100vw;
+    height: 10vh;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid gray;
+}
