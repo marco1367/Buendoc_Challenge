@@ -1,37 +1,37 @@
 import "./index.css";
 //import interfaces:
-import { cardProps, ResponseAxiosProfessionalsLnaguages } from "../../../interfaces";
-import penciledit from './lapiz.png'
+import { cardProps } from "../../../interfaces";
+//import imgs:
+import penciledit from './lapiz.png';
 import eyewatch from './ver.png';
-import { createRef, useEffect, useState } from "react";
+import dele from './dele.png';
+import { useEffect, useState } from "react";
+//import modals:
 import DetailModal from "../../modals/detail_modal";
-import { getProfessionalsLanguages } from "../../../functions_requests";
+import DeleteModal from "../../modals/delete_modal";
+import EditProfModal from "../../modals/edit_modal";
 
 
 
 
 
 
-
-function ProfessionalCard( {professional}:cardProps ):JSX.Element {
+function ProfessionalCard( {professional, professionals, actualPage, setProfessionalsList, setNum}:cardProps ):JSX.Element {
     //locals states modals:
     const [stateDetailModal, setStateDetailModal] = useState(false);
-    const [languages, setLanguages] = useState<ResponseAxiosProfessionalsLnaguages[]>([]);
-
-
-
-    useEffect( ():void=>{
-        (async ()=>{
-            const response = await getProfessionalsLanguages(professional.id)
-            setLanguages(response.data)
-        })();
-    },[]);
-
+    const [stateDeleteModal, setStateDeleteModal] = useState(false);
+    const [stateEditModal, setStateEditModal] = useState(false);
 
 
     //----functions callback modals----//
-    function openDetailModal() {
+    function openDetailModal():void {
         setStateDetailModal( !stateDetailModal );
+    }
+    function openDeletelModal():void {
+        setStateDeleteModal( !stateDeleteModal );
+    }
+    function openEditlModal():void {
+        setStateEditModal( !stateEditModal );
     }
     //---------------------------------//
 
@@ -44,17 +44,22 @@ function ProfessionalCard( {professional}:cardProps ):JSX.Element {
             <div className="professional_card_div" > {professional.first_name} </div>
             <div className="professional_card_div" > {professional.last_name} </div>
             <div className="professional_card_div" > {professional.email} </div>
-            <div className="professional_card_div" > {professional.id} </div>
-            <div className="professional_card_div" > {professional.is_active} </div>
+            <div className="professional_card_div" > {professional.id} </div> 
+            <div className="professional_card_div" > {professional.is_active ? "Activo" : "No activo"} </div>
 
             <div className="professional_card_div" id="professional_card_img_container" >
-                <img src={penciledit} className="img_card" />
+                <img src={penciledit} className="img_card" onClick={()=>{openEditlModal()}} />
                 <img src={eyewatch} className="img_card" onClick={()=>{openDetailModal()}} />
+                <img src={dele} className="img_card"  onClick={()=>{openDeletelModal()}} />
             </div>
 
 
-            <DetailModal  openDetailModal={openDetailModal} stateDetailModal={stateDetailModal} professional={professional} languages={languages}  />
+            <DetailModal  openDetailModal={openDetailModal} stateDetailModal={stateDetailModal} professional={professional}   />
+
+            <DeleteModal openDeletelModal={openDeletelModal} stateDeleteModal={stateDeleteModal} professional={professional} actualPage={actualPage} setProfessionalsList={setProfessionalsList} setNum={setNum}  />
         
+            <EditProfModal openEditlModal={openEditlModal} stateEditModal={stateEditModal} />
+
         </div>
     );
   }

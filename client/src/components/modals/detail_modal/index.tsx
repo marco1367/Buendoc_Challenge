@@ -2,14 +2,24 @@ import "./index.css";
 import { Button, Modal, ModalBody } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css"
 //import interfaces:
-import {detailModalProps} from "../../../interfaces/index"
-import { useEffect } from "react";
+import {detailModalProps, ResponseAxiosProfessionalsLnaguages} from "../../../interfaces/index"
+import { useEffect, useState } from "react";
+import { getProfessionalsLanguages } from "../../../functions_requests";
 
 
 
 
 
-function DetailModal({languages, stateDetailModal, openDetailModal, professional}:detailModalProps):JSX.Element {
+function DetailModal({ stateDetailModal, openDetailModal, professional}:detailModalProps):JSX.Element {
+    const [languages, setLanguages] = useState<ResponseAxiosProfessionalsLnaguages[]>([]);
+
+
+    useEffect( ():void=>{
+        (async ()=>{
+            const response = await getProfessionalsLanguages(professional.id)
+            setLanguages(response.data)
+        })();
+    },[professional]);
 
 
     return (

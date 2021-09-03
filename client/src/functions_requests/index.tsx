@@ -37,12 +37,28 @@ export  async function getProfessionalsLanguages(id:number){
 
 
 export async function postProfessional(f:any){
-    const response = await axios.post("http://challenge.radlena.com/api/v1/professionals/", f);
-    return response;
+
+        const response = await axios.post("http://challenge.radlena.com/api/v1/professionals/", f).catch(e => {return e.response.data})
+        return response;
+
 }
 
 
 
 export async function postProfessionalLanguage(obj:professionalLanguage){
     const response = await axios.post("http://challenge.radlena.com/api/v1/professional-languages/", obj);
+}
+
+
+
+export async function deleteProfessional(id:number){
+    const response = await axios.delete(`http://challenge.radlena.com/api/v1/professionals/${id}/`);
+}
+
+
+
+export async function PatchProfessional(f:any,id:number){
+    const response = await axios.post(`http://challenge.radlena.com/api/v1/professionals/${id}`, f);
+    console.log(response);//----
+    return response;
 }

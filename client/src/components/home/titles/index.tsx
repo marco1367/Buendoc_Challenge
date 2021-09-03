@@ -14,7 +14,7 @@ function HomeTitles({setProfessionalsList, professionalsList}:titleProps):JSX.El
 
 
     //----functions callback modals----//
-    function openNewProfModal() {
+    function openNewProfModal():void {
         setStateNewProfModal( !stateNewProfModal );
     }
     //---------------------------------//

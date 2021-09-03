@@ -7,17 +7,19 @@ import ProfessionalCard from "../professional_card/index";
 
 interface Props{
     professionals:Professional[],
+    actualPage:number,
+    setProfessionalsList:Function,
+    setNum:Function
 }
 
 
-function ProfessionalList({professionals}:Props):JSX.Element {
+function ProfessionalList({professionals, actualPage, setProfessionalsList, setNum}:Props):JSX.Element {
 
-    // console.log(professionals);//----
 
     return (
         <div id="professional_lins_container" >
             {
-                professionals.map(prof => <ProfessionalCard key={prof.id} professional={prof} /> )
+                professionals.map(prof => <ProfessionalCard key={prof.id} professional={prof} professionals={professionals} actualPage={actualPage} setProfessionalsList={setProfessionalsList} setNum={setNum} /> )
             }
         </div>
     );

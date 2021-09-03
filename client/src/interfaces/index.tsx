@@ -36,15 +36,36 @@ export interface ResponseAxiosProfessionalsLnaguages {
 
 export interface cardProps{
     professional:Professional,
+    professionals:Professional[],
+    actualPage:number,
+    setProfessionalsList:Function,
+    setNum:Function
 }
 
 
 export interface detailModalProps{
     openDetailModal:Function,
     stateDetailModal:boolean,
-    professional:Professional
-    languages:ResponseAxiosProfessionalsLnaguages[]
+    professional:Professional,
+    // languages:ResponseAxiosProfessionalsLnaguages[]
 }
+
+
+export interface deleteModalProps {
+    openDeletelModal:Function,
+    stateDeleteModal:boolean,
+    professional:Professional,
+    actualPage:number,
+    setProfessionalsList:Function,
+    setNum:Function
+}
+
+
+export interface editModalProps {
+    openEditlModal:Function,
+    stateEditModal:boolean,
+}
+
 
 
 export interface titleProps {
