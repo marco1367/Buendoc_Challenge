@@ -6,11 +6,20 @@ import Select from "react-select";
 //import interfaces:
 import { newProfModal, Languages, selectlanguagesOptions } from "../../../interfaces";
 //import functions requests:
-import { postProfessional, getLanguages, postProfessionalLanguage } from "../../../functions_requests/index";
+import { postProfessional, getLanguages, postProfessionalLanguage, getProfessionalsLanguages } from "../../../functions_requests/index";
 
 
 
 const selectOptions: selectlanguagesOptions[] = [];
+
+
+interface stateErrorsResult {
+    profile_image: string[],
+    first_name: string[],
+    last_name: string[],
+    email: string[],
+    non_field_errors: string[],
+}
 
 
 
@@ -34,7 +43,13 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
         // languages:"",
     })
 
-    const [errorResponse, setErrorResponse] = useState<string[]>([])
+    const [errorResponse, setErrorResponse] = useState<stateErrorsResult>({
+        profile_image: [""],
+        first_name: [""],
+        last_name: [""],
+        email: [""],
+        non_field_errors: [""],
+    })
     //-------------------------------//
 
 
@@ -63,7 +78,7 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
 
 
 
-    //HandleChange functions:
+    //-------HandleChange functions:----------//
     function handleChangeFirstName(e: any): void {
         if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
             setStateErrors({
@@ -143,7 +158,36 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     function handleChangeSelect(e: any): void {
         setStateSelectLanguages(e);
     }
-    //---------------------//
+    //----------------------------------//
+
+
+
+
+
+
+
+    //----funcion para cerrar el modal y parcear los estados locales------//
+    function close() {
+
+        //parseamos el estado de los mensajes de error:
+        setErrorResponse({
+            profile_image: [""],
+            first_name: [""],
+            last_name: [""],
+            email: [""],
+            non_field_errors: [""],
+        });
+
+        setStateErrors({
+            profile_image: false,
+            first_name: false,
+            last_name: false,
+            email: false,
+        })
+
+        openNewProfModal();
+    }
+    //----------------------------------------------------------------------//
 
 
 
@@ -160,12 +204,10 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
         //post new professional:
         const response = await postProfessional(f);
 
+
         if (!response.data) {
 
-            for (const property in response) {
-                const array = errorResponse.concat(response[property])
-                setErrorResponse(array)
-            }
+            setErrorResponse(response);
 
         } else {
 
@@ -181,10 +223,26 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
             setProfessionalsList(newProfessionalList);
 
             //parseamos el estado de los mensajes de error:
-            setErrorResponse([]);
+            setErrorResponse({
+                profile_image: [""],
+                first_name: [""],
+                last_name: [""],
+                email: [""],
+                non_field_errors: [""],
+            });
+
+            setStateErrors({
+                profile_image: false,
+                first_name: false,
+                last_name: false,
+                email: false,
+            })
+
+
         }
 
     }
+
 
 
 
@@ -197,28 +255,34 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
             <ModalBody>
 
                 <div>
-                    <Button onClick={() => { openNewProfModal() }} >X</Button>
+                    <Button onClick={() => { close() }} >X</Button>
                 </div>
 
                 <form onSubmit={(e) => { handleSubmit(e) }} >
                     <div>
+                        {(errorResponse.profile_image && errorResponse.profile_image[0] !== "") ? <p>{errorResponse.profile_image[0]}</p> : null}
                         <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => { handleProfileImage(e) }} />
                     </div>
 
                     <div>
                         {(stateErrors.first_name) ? <p>Campo requerido, caracteres min:1 max:30</p> : null}
+                        {(errorResponse.first_name && errorResponse.first_name[0] !== "") ? <p> {errorResponse.first_name[0]} </p> : null}
                         <input type="text" name="first_name " placeholder="Nombre..." onChange={(e) => { handleChangeFirstName(e) }} />
                     </div>
 
                     <div>
                         {(stateErrors.last_name) ? <p>Campo requerido, caracteres min:1 max:30</p> : null}
+                        {(errorResponse.last_name && errorResponse.last_name[0] !== "") ? <p> {errorResponse.last_name[0]} </p> : null}
                         <input type="text" name="last_name " placeholder="Apellido..." onChange={(e) => { handleChangeLasttName(e) }} />
                     </div>
 
                     <div>
                         {(stateErrors.email) ? <p>Campo requerido, caracteres min:1 max:30</p> : null}
+                        {(errorResponse.email && errorResponse.email[0] !== "") ? <p> {errorResponse.email[0]} </p> : null}
+                        {(errorResponse.non_field_errors && errorResponse.non_field_errors[0] !== "") ? <p> {errorResponse.non_field_errors[0]} </p> : null}
                         <input type="email" name="email" placeholder="Email..." onChange={(e) => { handleChangeEmail(e) }} />
                     </div>
+
 
                     <div>
                         <Select
@@ -229,15 +293,6 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
                         ></Select>
                     </div>
 
-                    <div>
-                        {
-                            errorResponse.length !== 0
-                                ?
-                                errorResponse.map(err => { return <div><p> {err} </p></div> })
-                                :
-                                null
-                        }
-                    </div>
 
                     <div>
                         <Button type="submit" >Agregar Profesional</Button>

@@ -58,7 +58,7 @@ export async function deleteProfessional(id:number){
 
 
 export async function PatchProfessional(f:any,id:number){
-    const response = await axios.post(`http://challenge.radlena.com/api/v1/professionals/${id}`, f);
+    const response = await axios.patch(`http://challenge.radlena.com/api/v1/professionals/${id}/`, f).catch(e => {return e.response.data});
     console.log(response);//----
     return response;
 }

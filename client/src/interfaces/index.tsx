@@ -64,6 +64,9 @@ export interface deleteModalProps {
 export interface editModalProps {
     openEditlModal:Function,
     stateEditModal:boolean,
+    professional:Professional,
+    actualPage:number,
+    setProfessionalsList:Function
 }
 
 
