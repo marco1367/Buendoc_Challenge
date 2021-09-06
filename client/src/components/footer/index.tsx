@@ -6,7 +6,11 @@ function Footer():JSX.Element {
 
     return (
         <div id="footer_principal_container" >
-            <h1>SOY EL FOOTER</h1>
+            <div className="footer_principal_div" >
+                
+            </div>
+            <div className="footer_principal_div" >hola</div>
+            <div className="footer_principal_div" >hola</div>
         </div>
     );
   }
