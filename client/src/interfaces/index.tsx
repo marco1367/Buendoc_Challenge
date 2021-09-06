@@ -66,7 +66,8 @@ export interface editModalProps {
     stateEditModal:boolean,
     professional:Professional,
     actualPage:number,
-    setProfessionalsList:Function
+    setProfessionalsList:Function,
+    professionals:Professional[]
 }
 
 

@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 
 body{
@@ -13,3 +14,13 @@ body{
     width: auto;
     height: auto;
 }
+
+.bttn_basic_style{
+    background-color: #5b5ef4;
+    color: white;
+    border-radius: 3px;
+    border: none;
+    padding: 10px;
+}
+
+

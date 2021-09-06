@@ -54,7 +54,7 @@ function Home():JSX.Element {
 
             <ProfessionalList professionals={professionalsList} actualPage={actualPage} setProfessionalsList={setProfessionalsList} setNum={setNum} />
 
-            <Pagination num={num} getProfessionalsPagination={getProfessionalsPagination}  setActualPage={setActualPage} />
+            <Pagination actualPage={actualPage} num={num} getProfessionalsPagination={getProfessionalsPagination}  setActualPage={setActualPage} />
 
 
         </div>

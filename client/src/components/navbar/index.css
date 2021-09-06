@@ -4,5 +4,14 @@
     background-color: white;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid gray;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+#navbar_img{
+    width: 80px;
+    height: 70px;
 }

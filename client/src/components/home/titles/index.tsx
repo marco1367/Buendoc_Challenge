@@ -31,7 +31,7 @@ function HomeTitles({setProfessionalsList, professionalsList}:titleProps):JSX.El
             <div className="home_titles_div" >ESTADO</div>
 
             <div className="home_titles_div" > 
-                <button onClick={():void=>{openNewProfModal()}} >Nuevo Profesional</button> 
+                <button className="bttn_basic_style" id="bttn_new_prof" onClick={():void=>{openNewProfModal()}} >Nuevo Profesional</button> 
             </div>
 
             <NewProfModal stateNewProfModal={stateNewProfModal} openNewProfModal={openNewProfModal} setProfessionalsList={setProfessionalsList} professionalsList={professionalsList}  />

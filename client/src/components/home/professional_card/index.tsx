@@ -58,7 +58,7 @@ function ProfessionalCard( {professional, professionals, actualPage, setProfessi
 
             <DeleteModal openDeletelModal={openDeletelModal} stateDeleteModal={stateDeleteModal} professional={professional} actualPage={actualPage} setProfessionalsList={setProfessionalsList} setNum={setNum}  />
         
-            <EditProfModal openEditlModal={openEditlModal} stateEditModal={stateEditModal} professional={professional} actualPage={actualPage} setProfessionalsList={setProfessionalsList} />
+            <EditProfModal openEditlModal={openEditlModal} stateEditModal={stateEditModal} professional={professional} actualPage={actualPage} setProfessionalsList={setProfessionalsList} professionals={professionals} />
 
         </div>
     );
