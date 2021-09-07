@@ -74,7 +74,8 @@ export interface editModalProps {
 
 export interface titleProps {
     setProfessionalsList:Function,
-    professionalsList: Professional[]
+    professionalsList: Professional[],
+    setNum:Function
 }
 
 
@@ -83,7 +84,8 @@ export interface newProfModal {
     stateNewProfModal:boolean,
     openNewProfModal:Function,
     setProfessionalsList: Function,
-    professionalsList:Professional[]
+    professionalsList:Professional[],
+    setNum:Function
 }
 
 
@@ -92,7 +94,7 @@ export interface newProfessional {
     profile_image:File|string,
     first_name:string,
     last_name:string,
-    email:string
+    email:string,
 }
 
 

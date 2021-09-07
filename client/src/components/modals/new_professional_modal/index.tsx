@@ -15,16 +15,10 @@ import { modalStyle, modalBody } from "../styles"
 const selectOptions: selectlanguagesOptions[] = [];
 
 
-// const modalStyle:any = {
-//     position: "absolute",
-//     top: "50%",
-//     left:"50%",
-//     transform: "translate(-50%, -50%)",
-
-// }
 
 
-function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsList, professionalsList }: newProfModal): JSX.Element {
+
+function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsList, professionalsList, setNum }: newProfModal): JSX.Element {
     //-----Local states:-------//
     const [stateValues, setStateValues] = useState({
         profile_image: "",
@@ -234,9 +228,12 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
                 })
             });
             //upDate professionalLinst in home:
-            // const newProfessionalList = [response.data].concat(professionalsList);
-            const response2 = getProfessionals()
+            const response2 = await getProfessionals()
             setProfessionalsList((await response2).data.results);
+
+            //seteamos el numero de registros para la paginacion con la respuesta del request del GET:
+            setNum(response2.data.count)
+
 
             //parseamos el estado de los mensajes de error:
             setErrorResponse({

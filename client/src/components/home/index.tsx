@@ -50,7 +50,7 @@ function Home():JSX.Element {
     return (
         <div id="home_principal_container" >
 
-            <HomeTitles setProfessionalsList={setProfessionalsList} professionalsList={professionalsList} />
+            <HomeTitles setProfessionalsList={setProfessionalsList} professionalsList={professionalsList} setNum={setNum} />
 
             <ProfessionalList professionals={professionalsList} actualPage={actualPage} setProfessionalsList={setProfessionalsList} setNum={setNum} />
 

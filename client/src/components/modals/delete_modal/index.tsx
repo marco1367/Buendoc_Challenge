@@ -12,10 +12,26 @@ import { deleteProfessional, getProfessionals } from "../../../functions_request
 function DeleteModal({openDeletelModal, stateDeleteModal, professional, actualPage, setProfessionalsList,setNum}:deleteModalProps): JSX.Element {
 
     async function onClick() {
+        //borramos el registro del profesional:
         await deleteProfessional(professional.id);
+        //traemos los registros actualizados en la paginacion que estmaos:
         const response = await getProfessionals(actualPage);
-        setNum(response.data.count+1)
-        setProfessionalsList(response.data.results);
+        
+
+        //tenemos que comprobar si es el ultimo registro de la ultima paginacion:
+        if ( response.data ) {
+            //seteamos el numero de registros para la paginacion con la respuesta del request del GET:
+            setNum(response.data.count);
+            //seteamos la lsita de profesionales a mostrar:
+            setProfessionalsList(response.data.results);
+        }else{
+            //traemos los registros actualizados pero de la pagina anterior(eliminamos el ultimo reg de la ultima pagina):
+            const newPageNumber:number = actualPage -1;
+            const response2 = await getProfessionals(newPageNumber);
+            setNum( response2.data.count );
+            setProfessionalsList(response2.data.results);
+        }
+
     }
 
     return (

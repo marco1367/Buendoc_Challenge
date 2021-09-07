@@ -9,7 +9,7 @@ import {titleProps} from "../../../interfaces/index";
 
 
 
-function HomeTitles({setProfessionalsList, professionalsList}:titleProps):JSX.Element {
+function HomeTitles({setProfessionalsList, professionalsList, setNum}:titleProps):JSX.Element {
     const [stateNewProfModal, setStateNewProfModal] = useState(false);
 
 
@@ -34,7 +34,7 @@ function HomeTitles({setProfessionalsList, professionalsList}:titleProps):JSX.El
                 <button className="bttn_basic_style" id="bttn_new_prof" onClick={():void=>{openNewProfModal()}} >Nuevo Profesional</button> 
             </div>
 
-            <NewProfModal stateNewProfModal={stateNewProfModal} openNewProfModal={openNewProfModal} setProfessionalsList={setProfessionalsList} professionalsList={professionalsList}  />
+            <NewProfModal setNum={setNum} stateNewProfModal={stateNewProfModal} openNewProfModal={openNewProfModal} setProfessionalsList={setProfessionalsList} professionalsList={professionalsList}  />
 
         </div>
     );

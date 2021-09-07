@@ -14,7 +14,7 @@ export  async function getProfessionals(num?:number){
         const response = await axios.get<ResultAxiosProfessionals>("http://challenge.radlena.com/api/v1/professionals/");
         return response;
     }else{
-        const response = await axios.get<ResultAxiosProfessionals>(`http://challenge.radlena.com/api/v1/professionals/?page=${num}`);
+        const response = await axios.get<ResultAxiosProfessionals>(`http://challenge.radlena.com/api/v1/professionals/?page=${num}`).catch(e => {return e.response.data});
         return response;
     }
 
