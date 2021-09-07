@@ -2,3 +2,8 @@
     width: 150px;
     height: 150px;
 }
+
+#detail_languages_container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}

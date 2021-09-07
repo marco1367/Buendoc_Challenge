@@ -7,6 +7,8 @@ import Select from "react-select";
 import { editModalProps, selectlanguagesOptions, Languages, ResponseAxiosProfessionalsLnaguages } from "../../../interfaces";
 //import functions requests:
 import { PatchProfessional, getProfessionals, getLanguages, getProfessionalsLanguages, deleteProfessionalLanguage, postProfessionalLanguage } from "../../../functions_requests";
+//import styles modal:
+import {modalStyle, modalBody} from "../styles"
 
 
 
@@ -259,7 +261,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
         }
 
 
-        if (response.data || selectProfLangValues.length > 0 || selectLangValues.length > 0) {
+        if (response.data || selectProfLangValues.length > 0 || selectLangValues.length > 0 ) {
 
             //parseamos el errorResponse:
             setErrorResponse({});
@@ -284,43 +286,48 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
     return (
 
-        <Modal animation="false" isOpen={stateEditModal} >
+        <Modal animation="false" isOpen={stateEditModal} style={modalStyle} >
 
-            <ModalBody>
+            <ModalBody style={modalBody} >
 
-                <div>
+                <div className="modal_header" >
+                    <h4>Editar profesional</h4>
                     <Button onClick={() => close()}  >X</Button>
                 </div>
 
                 {
                     msgSucceEdition
                         ?
-                        <div> <h3>Cambios realizados</h3> </div>
+                        <div className="msg_exito" > <h3>Cambios realizados con éxito.</h3> </div>
                         :
-                        <form onSubmit={(e) => { handleSubmit(e) }} >
-                            <div>
-                                {(stateErrors.profile_image) ? <p>Campo requerido: seleccione una imagen png o jpg</p> : null}
+                        <form onSubmit={(e) => { handleSubmit(e) }} className="form_modal_container" >
+                            <div className="form_modal_div" >
+                                <p>Imagen de perfil</p>
+                                {(stateErrors.profile_image) ? <p className="p_error_msg" >Campo requerido: seleccione una imagen png o jpg</p> : null}
                                 <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => handleProfileImage(e)} />
                             </div>
 
-                            <div>
-                                {(stateErrors.first_name) ? <p>Campo requerido, caracteres min:1 max:30</p> : null}
-                                <input type="text" name="first_name " placeholder="Nombre..." onChange={(e) => { handleChangeFirstName(e) }} />
+                            <div className="form_modal_div" >
+                                <p>Nombre</p>
+                                {(stateErrors.first_name) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30</p> : null}
+                                <input className="form_imput" type="text" name="first_name " placeholder="Nombre..." onChange={(e) => { handleChangeFirstName(e) }} />
                             </div>
 
-                            <div>
-                                {(stateErrors.last_name) ? <p>Campo requerido, caracteres min:1 max:30</p> : null}
-                                <input type="text" name="last_name " placeholder="Apellido..." onChange={(e) => { handleChangeLasttName(e) }} />
+                            <div className="form_modal_div" >
+                                <p>Apellido</p>
+                                {(stateErrors.last_name) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30</p> : null}
+                                <input className="form_imput" type="text" name="last_name " placeholder="Apellido..." onChange={(e) => { handleChangeLasttName(e) }} />
                             </div>
 
-                            <div>
-                                {(stateErrors.email) ? <p>Campo requerido, caracteres min:1 max:254</p> : null}
-                                <input type="email" name="email" placeholder="Email..." onChange={(e) => handleChangeEmail(e)} />
+                            <div className="form_modal_div" >
+                                <p>Email</p>
+                                {(stateErrors.email) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:254</p> : null}
+                                <input className="form_imput" type="email" name="email" placeholder="Email..." onChange={(e) => handleChangeEmail(e)} />
                             </div>
 
 
-                            <div>
-                                <p>Seleccione idiomas a elminar:</p>
+                            <div className="form_modal_div" >
+                                <p>Eliminar idiomas existentes:</p>
                                 <Select
                                     options={selectProfLangOptions}
                                     isMulti={true}
@@ -330,8 +337,8 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                             </div>
 
 
-                            <div>
-                                <p>Seleccione idiomas a agregar:</p>
+                            <div className="form_modal_div" >
+                                <p>Agregar nuevos idiomas:</p>
                                 <Select
                                     options={selectLanguagesOptions}
                                     isMulti={true}
@@ -345,7 +352,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                                     ?
                                     <div>
                                         {
-                                            Object.values(errorResponse).map(prop => <p> {prop} </p>)
+                                            Object.values(errorResponse).map(prop => <p className="p_error_msg"  > {prop} </p>)
                                         }
                                     </div>
                                     :

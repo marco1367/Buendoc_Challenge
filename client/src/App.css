@@ -2,12 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:Verdana, Geneva, Tahoma, sans-serif
+    font-family:"Comfortaa"
 }
 
 body{
     width: 100vw;
     height: auto;
+    font-family: "Comfortaa";
 }
 
 #app{

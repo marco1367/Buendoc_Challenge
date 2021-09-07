@@ -26,12 +26,12 @@ function DeleteModal({openDeletelModal, stateDeleteModal, professional, actualPa
                     <Button onClick={() => { openDeletelModal() }} >X</Button>
                 </div>
 
-                <div>
+                <div id="mgs_delete" >
                     <h3>Atención:</h3>
                     <h3>Una vez borrado los datos no podrán ser recuperados.</h3>
                 </div>
 
-                <div>
+                <div className="form_modal_div modal_bttn" >
                     <Button onClick={()=>{onClick()}} >Borrar</Button>
                 </div>
 

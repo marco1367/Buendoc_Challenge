@@ -107,3 +107,12 @@ export interface professionalLanguage {
     professional_id:number,
     language_id:number,
 }
+
+
+export interface stateErrorsResult {
+    profile_image: string[],
+    first_name: string[],
+    last_name: string[],
+    email: string[],
+    non_field_errors: string[],
+}

@@ -1,0 +1,54 @@
+.form_modal_container{
+    width: 100%;
+    height: 90%;
+
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal_header{
+    width: 100%;
+    height: 10%;
+    border-bottom: 0.5px solid rgba(187, 187, 187, 0.829);
+
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.modal_header h4{
+    color: #5b5ef4;
+    font-weight: bold;
+}
+
+
+
+.form_modal_div{
+    width: 90%;
+}
+.form_modal_div p{
+    margin: 0;
+    padding: 0;
+    color: #5b5ef4;
+}
+
+
+.form_imput{
+    width: 100%;
+    height: 40px;
+    padding-left: 5px;
+    border-radius: 5px;
+    border: 0.5px solid rgba(187, 187, 187, 0.829);
+}
+
+.modal_bttn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p_error_msg{
+    color: rgba(214, 28, 28, 0.89) !important;
+}
