@@ -172,6 +172,14 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     //----funcion para cerrar el modal y parcear los estados locales------//
     function close() {
 
+        //parseamos los valores del form:
+        setStateValues({
+            profile_image: "",
+            first_name: "",
+            last_name: "",
+            email: "",
+        })
+
         //parseamos el estado de los mensajes de error:
         setErrorResponse({
             profile_image: [""],
@@ -244,6 +252,14 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
                 first_name: false,
                 last_name: false,
                 email: false,
+            })
+
+            //parseamos los valores del form:
+            setStateValues({
+                profile_image: "",
+                first_name: "",
+                last_name: "",
+                email: "",
             })
 
             //activamos el mensaje de creacion exitosa:
