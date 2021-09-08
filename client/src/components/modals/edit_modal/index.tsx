@@ -8,7 +8,7 @@ import { editModalProps, selectlanguagesOptions, Languages, ResponseAxiosProfess
 //import functions requests:
 import { PatchProfessional, getProfessionals, getLanguages, getProfessionalsLanguages, deleteProfessionalLanguage, postProfessionalLanguage } from "../../../functions_requests";
 //import styles modal:
-import {modalStyle, modalBody} from "../styles"
+import { modalStyle, modalBody } from "../styles"
 
 
 
@@ -97,7 +97,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
     //----Handle Changes:----//
     function handleChangeFirstName(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
+        if (e.target.value.length > 30 ) {
             setStateErrors({
                 ...stateErrors,
                 first_name: true
@@ -116,7 +116,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
     }
 
     function handleChangeLasttName(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
+        if (e.target.value.length > 30 ) {
             setStateErrors({
                 ...stateErrors,
                 last_name: true
@@ -136,7 +136,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
 
     function handleChangeEmail(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 254 || e.target.value === "") {
+        if (e.target.value.length > 254) {
             setStateErrors({
                 ...stateErrors,
                 email: true
@@ -158,21 +158,24 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
     function handleProfileImage(e: any): void {
 
         if (e.target.files.length === 0) {
-            setStateErrors({
-                ...stateErrors,
-                profile_image: true
+            // setStateErrors({
+            //     ...stateErrors,
+            //     profile_image: true
+            // })
+            setStateValues({
+                ...stateValues,
+                profile_image: ""
             })
         } else {
-            setStateErrors({
-                ...stateErrors,
-                profile_image: false
+            // setStateErrors({
+            //     ...stateErrors,
+            //     profile_image: false
+            // })
+            setStateValues({
+                ...stateValues,
+                profile_image: e.target.files[0]
             })
         }
-
-        setStateValues({
-            ...stateValues,
-            profile_image: e.target.files[0]
-        })
 
     }
 
@@ -241,7 +244,12 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
         if (stateValues.email !== "") {
             f.append("email", stateValues.email);
         }
-        const response = await PatchProfessional(f, professional.id);
+
+        // //comprobamos si el form data tiene info y realizamos el PATCH de ser necesario:
+        // if (f.get("profile_image") || f.get("first_name") || f.get("last_name") || f.get("email")) {
+            var response = await PatchProfessional(f, professional.id); // usamos VAR y no CONST para poder axceder desde un scope mas afuera !!
+        // }
+
 
         //delete de idiomas del usuario: (si es que se seleccionó alguno)
         if (selectProfLangValues.length > 0) {
@@ -260,8 +268,8 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
             });
         }
 
-
-        if (response.data || selectProfLangValues.length > 0 || selectLangValues.length > 0 ) {
+        console.log(response);//-----
+        if (response.data || selectProfLangValues.length > 0 || selectLangValues.length > 0) {
 
             //parseamos el errorResponse:
             setErrorResponse({});
@@ -272,7 +280,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
             setMsgSucceEdition(!msgSucceEdition);
 
-        } else {
+        } else if(Object.values(response).length>0) {
 
             setErrorResponse(response);
 
@@ -303,25 +311,25 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                         <form onSubmit={(e) => { handleSubmit(e) }} className="form_modal_container" >
                             <div className="form_modal_div" >
                                 <p>Imagen de perfil</p>
-                                {(stateErrors.profile_image) ? <p className="p_error_msg" >Campo requerido: seleccione una imagen png o jpg</p> : null}
+                                {(stateErrors.profile_image) ? <p className="p_error_msg" >seleccione una imagen png o jpg</p> : null}
                                 <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => handleProfileImage(e)} />
                             </div>
 
                             <div className="form_modal_div" >
                                 <p>Nombre</p>
-                                {(stateErrors.first_name) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30</p> : null}
+                                {(stateErrors.first_name) ? <p className="p_error_msg" >caracteres min:1 max:30</p> : null}
                                 <input className="form_imput" type="text" name="first_name " placeholder="Nombre..." onChange={(e) => { handleChangeFirstName(e) }} />
                             </div>
 
                             <div className="form_modal_div" >
                                 <p>Apellido</p>
-                                {(stateErrors.last_name) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30</p> : null}
+                                {(stateErrors.last_name) ? <p className="p_error_msg" >caracteres min:1 max:30</p> : null}
                                 <input className="form_imput" type="text" name="last_name " placeholder="Apellido..." onChange={(e) => { handleChangeLasttName(e) }} />
                             </div>
 
                             <div className="form_modal_div" >
                                 <p>Email</p>
-                                {(stateErrors.email) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:254</p> : null}
+                                {(stateErrors.email) ? <p className="p_error_msg" >caracteres min:1 max:254</p> : null}
                                 <input className="form_imput" type="email" name="email" placeholder="Email..." onChange={(e) => handleChangeEmail(e)} />
                             </div>
 
@@ -359,9 +367,16 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                                     null
                             }
 
-                            <div>
-                                <Button type="submit" >Editar Profesional</Button>
-                            </div>
+                            {
+                                ( (stateValues.email === "" && stateValues.first_name === "" && stateValues.last_name === "" && stateValues.profile_image === "" && selectProfLangValues.length === 0 && selectLangValues.length === 0)  || stateErrors.email || stateErrors.first_name || stateErrors.last_name )
+                                    ?
+                                    null
+                                    :
+                                    <div>
+                                        <Button type="submit" >Editar Profesional</Button>
+                                    </div>
+                            }
+
 
                         </form>
                 }
