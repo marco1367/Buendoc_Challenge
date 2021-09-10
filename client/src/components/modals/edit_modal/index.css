@@ -3,3 +3,17 @@
     margin-top: 40px;
     color: rgba(15, 160, 15, 0.842);
 }
+
+.div_file_img_delete_modal{
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.img_delet_modal{
+    width: 70px;
+    height: 70px;
+}
