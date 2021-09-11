@@ -77,17 +77,17 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
 
     //-------HandleChange functions:----------//
     function handleChangeFirstName(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
-            setStateErrors({
-                ...stateErrors,
-                first_name: true
-            })
-        } else {
-            setStateErrors({
-                ...stateErrors,
-                first_name: false
-            })
-        }
+        // if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         first_name: true
+        //     })
+        // } else {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         first_name: false
+        //     })
+        // }
 
         setStateValues({
             ...stateValues,
@@ -96,17 +96,17 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     }
 
     function handleChangeLasttName(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
-            setStateErrors({
-                ...stateErrors,
-                last_name: true
-            })
-        } else {
-            setStateErrors({
-                ...stateErrors,
-                last_name: false
-            })
-        }
+        // if (e.target.value.length < 1 || e.target.value.length > 30 || e.target.value === "") {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         last_name: true
+        //     })
+        // } else {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         last_name: false
+        //     })
+        // }
 
         setStateValues({
             ...stateValues,
@@ -115,17 +115,17 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     }
 
     function handleChangeEmail(e: any): void {
-        if (e.target.value.length < 1 || e.target.value.length > 254 || e.target.value === "") {
-            setStateErrors({
-                ...stateErrors,
-                email: true
-            })
-        } else {
-            setStateErrors({
-                ...stateErrors,
-                email: false
-            })
-        }
+        // if (e.target.value.length < 1 || e.target.value.length > 254 || e.target.value === "") {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         email: true
+        //     })
+        // } else {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         email: false
+        //     })
+        // }
 
         setStateValues({
             ...stateValues,
@@ -134,17 +134,17 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     }
 
     function handleProfileImage(e: any): void {
-        if (!e.target.files) {
-            setStateErrors({
-                ...stateErrors,
-                profile_image: true
-            })
-        } else {
-            setStateErrors({
-                ...stateErrors,
-                profile_image: false
-            })
-        }
+        // if (!e.target.files) {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         profile_image: true
+        //     })
+        // } else {
+        //     setStateErrors({
+        //         ...stateErrors,
+        //         profile_image: false
+        //     })
+        // }
 
         setStateValues({
             ...stateValues,
@@ -204,66 +204,100 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
     async function handleSubmit(e: any) {
         e.preventDefault();
 
-        const f = new FormData();
-        f.append("profile_image", stateValues.profile_image);
-        f.append("first_name", stateValues.first_name);
-        f.append("last_name", stateValues.last_name);
-        f.append("email", stateValues.email);
 
-        //post new professional:
-        const response = await postProfessional(f);
-
-
-        if (!response.data) {
-
-            setErrorResponse(response);
-
-        } else {
-
-            //posts professional_languages:
-            stateSelectLanguages.forEach((lang) => {
-                postProfessionalLanguage({
-                    professional_id: response.data.id,
-                    language_id: lang.value,
-                })
-            });
-            //upDate professionalLinst in home:
-            const response2 = await getProfessionals()
-            setProfessionalsList((await response2).data.results);
-
-            //seteamos el numero de registros para la paginacion con la respuesta del request del GET:
-            setNum(response2.data.count)
-
-
-            //parseamos el estado de los mensajes de error:
-            setErrorResponse({
-                profile_image: [""],
-                first_name: [""],
-                last_name: [""],
-                email: [""],
-                non_field_errors: [""],
-            });
-
-            setStateErrors({
-                profile_image: false,
-                first_name: false,
-                last_name: false,
-                email: false,
-            })
-
-            //parseamos los valores del form:
-            setStateValues({
-                profile_image: "",
-                first_name: "",
-                last_name: "",
-                email: "",
-            })
-
-            //activamos el mensaje de creacion exitosa:
-            setStateMsgExito(!stateMsgExito)
-
-
+        //validacion de los datos ingresados en los inputs type="text" y type="file":
+        let errors = {
+            profile_image: false,
+            first_name: false,
+            last_name: false,
+            email: false,
         }
+
+        if (stateValues.profile_image === "") {
+            errors.profile_image = true;
+        }
+
+        if (stateValues.first_name === "" || stateValues.first_name.length < 1 || stateValues.first_name.length > 30) {
+            errors.first_name = true;
+        }
+
+
+        if (stateValues.last_name === "" || stateValues.last_name.length < 1 || stateValues.last_name.length > 30) {
+            errors.last_name = true;
+        }
+
+
+        if (stateValues.email === "" || stateValues.email.length < 1 || stateValues.email.length > 254 || (stateValues.email.includes("@") && stateValues.email.includes(".com")) === false) {
+            errors.email = true;
+        }
+
+        setStateErrors(errors);
+
+        if (!errors.email && !errors.first_name && !errors.last_name && !errors.profile_image) {
+
+            const f = new FormData();
+            f.append("profile_image", stateValues.profile_image);
+            f.append("first_name", stateValues.first_name);
+            f.append("last_name", stateValues.last_name);
+            f.append("email", stateValues.email);
+
+            //post new professional:
+            const response = await postProfessional(f);
+
+
+            if (!response.data) {
+
+                setErrorResponse(response);
+
+            } else {
+
+                //posts professional_languages:
+                stateSelectLanguages.forEach((lang) => {
+                    postProfessionalLanguage({
+                        professional_id: response.data.id,
+                        language_id: lang.value,
+                    })
+                });
+                //upDate professionalLinst in home:
+                const response2 = await getProfessionals()
+                setProfessionalsList((await response2).data.results);
+
+                //seteamos el numero de registros para la paginacion con la respuesta del request del GET:
+                setNum(response2.data.count)
+
+
+                //parseamos el estado de los mensajes de error:
+                setErrorResponse({
+                    profile_image: [""],
+                    first_name: [""],
+                    last_name: [""],
+                    email: [""],
+                    non_field_errors: [""],
+                });
+
+                setStateErrors({
+                    profile_image: false,
+                    first_name: false,
+                    last_name: false,
+                    email: false,
+                })
+
+                //parseamos los valores del form:
+                setStateValues({
+                    profile_image: "",
+                    first_name: "",
+                    last_name: "",
+                    email: "",
+                })
+
+                //activamos el mensaje de creacion exitosa:
+                setStateMsgExito(!stateMsgExito)
+
+
+            }
+        }
+
+
 
     }
 
@@ -292,6 +326,7 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
                         <form onSubmit={(e) => { handleSubmit(e) }} className="form_modal_container"  >
                             <div className="form_modal_div" >
                                 <p>Imagen de perfil</p>
+                                {(stateErrors.profile_image ) ? <p className="p_error_msg" >Campo requerido, Seleccione una imagen.</p> : null}
                                 {(errorResponse.profile_image && errorResponse.profile_image[0] !== "") ? <p className="p_error_msg" >{errorResponse.profile_image[0]}</p> : null}
                                 <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => { handleProfileImage(e) }} />
                             </div>
@@ -312,10 +347,10 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
 
                             <div className="form_modal_div" >
                                 <p>Email</p>
-                                {(stateErrors.email) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30</p> : null}
+                                {(stateErrors.email) ? <p className="p_error_msg" >Campo requerido, caracteres min:1 max:30. debe incluir @ y .com</p> : null}
                                 {(errorResponse.email && errorResponse.email[0] !== "") ? <p className="p_error_msg" > {errorResponse.email[0]} </p> : null}
                                 {(errorResponse.non_field_errors && errorResponse.non_field_errors[0] !== "") ? <p className="p_error_msg" > {errorResponse.non_field_errors[0]} </p> : null}
-                                <input className="form_imput" type="email" name="email" placeholder="Email..." onChange={(e) => { handleChangeEmail(e) }} />
+                                <input className="form_imput" type="text" name="email" placeholder="Email..." onChange={(e) => { handleChangeEmail(e) }} />
                             </div>
 
 
