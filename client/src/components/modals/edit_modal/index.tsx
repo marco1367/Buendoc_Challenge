@@ -288,35 +288,36 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                         return;
                     }
                 }
-            }
-
-
-            if (LanguagesToDelete.length > 0) {
-                console.log("hay idiomas para eliminar");//-----
-
-                LanguagesToDelete.forEach((proflang) => {
-                    deleteProfessionalLanguage(proflang.id);
-                });
-            }
-
-
-            if (languagesToAdd.length > 0) {
-                console.log("hay idiomas para agregar")//-----
-
-                languagesToAdd.forEach((lang) => {
-                    postProfessionalLanguage({
-                        professional_id: professional.id,
-                        language_id: lang.value
+                if (LanguagesToDelete.length > 0) {
+                    console.log("hay idiomas para eliminar");//-----
+    
+                    LanguagesToDelete.forEach((proflang) => {
+                        deleteProfessionalLanguage(proflang.id);
                     });
-                });
+                }
+    
+    
+                if (languagesToAdd.length > 0) {
+                    console.log("hay idiomas para agregar")//-----
+    
+                    languagesToAdd.forEach((lang) => {
+                        postProfessionalLanguage({
+                            professional_id: professional.id,
+                            language_id: lang.value
+                        });
+                    });
+                }
+                
+                setMsgSucceEdition(!msgSucceEdition);
             }
+
+
 
 
             // actualizamos la lista en el home con los cambios en la paginacion que esté el usuario:
             const prof = await getProfessionals(actualPage);
             setProfessionalsList(prof.data.results);
 
-            setMsgSucceEdition(!msgSucceEdition);
 
         }
 
