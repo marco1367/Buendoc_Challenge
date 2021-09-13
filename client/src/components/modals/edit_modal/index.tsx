@@ -26,10 +26,10 @@ interface LangNoDelete {
 }
 
 interface stateValuesEdit {
-    profile_image:any,
-    first_name:string,
-    last_name:string,
-    email:string,
+    profile_image: any,
+    first_name: string,
+    last_name: string,
+    email: string,
 }
 
 
@@ -243,8 +243,6 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
         }
 
 
-
-
         //idiomas a agregar:
         let languagesToAdd: selectProfLangValuesinterf[] = selectProfLangValues;
         LanguagesNoDelete.forEach(lang1 => {
@@ -253,14 +251,16 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
 
 
-        //comprovamos que no haya ningun error en las validaciones para continuar o si hay idiomas a agrgar o eliminar:
-        if ((!errors.first_name && !errors.last_name && !errors.email && (stateValues.email !== "" || stateValues.first_name !== "" || stateValues.last_name !== "" || stateValues.profile_image !== "")) || LanguagesToDelete.length > 0 || languagesToAdd.length > 0) {
-            console.log("hay cambios");//-----
-            // parseamos el errorResponse:
-            setErrorResponse({});
+        //comprovamos que no haya ningun error en las validaciones para continuar:
+        if (!errors.first_name && !errors.last_name && !errors.email) {
+            // console.log("No hay errores");//-----
 
-            if (!errors.first_name && !errors.last_name && !errors.email) {
-                console.log("no hay errores");//-----
+            let changes:boolean = false; //variable para saber si se realizaron cambios.
+
+            //comprobamos si se ingresó info en los imputs:
+            if (stateValues.profile_image !== "" || stateValues.first_name !== "" || stateValues.last_name !== "" || stateValues.email !== "") {
+                // console.log("hay info para el fomr-data");//-----
+
                 //creamos y armamos el Form-Data a enviar:
                 const f = new FormData();
                 if (stateValues.profile_image !== "") {
@@ -276,47 +276,48 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                     f.append("email", stateValues.email);
                 }
 
-                //comprovamos si hay data para enviar en el form-data antes de hacer el patch:
-                if (f.get("profile_image") || f.get("first_name") || f.get("last_name") || f.get("email")) {
-                    console.log("hay data en el fomr-data");//-----
+                const response = await PatchProfessional(f, professional.id);
 
-                    const response = await PatchProfessional(f, professional.id);
-                    console.log(response);//-----
+                if (!response.data && Object.values(response).length > 0) {
+                    setErrorResponse(response);
+                    return; //cortamos la ejecucion.
+                }else{
+                    changes =true;
+                }
 
-                    if (!response.data && Object.values(response).length > 0) {
-                        setErrorResponse(response);
-                        return;
-                    }
-                }
-                if (LanguagesToDelete.length > 0) {
-                    console.log("hay idiomas para eliminar");//-----
-    
-                    LanguagesToDelete.forEach((proflang) => {
-                        deleteProfessionalLanguage(proflang.id);
-                    });
-                }
-    
-    
-                if (languagesToAdd.length > 0) {
-                    console.log("hay idiomas para agregar")//-----
-    
-                    languagesToAdd.forEach((lang) => {
-                        postProfessionalLanguage({
-                            professional_id: professional.id,
-                            language_id: lang.value
-                        });
-                    });
-                }
-                
-                setMsgSucceEdition(!msgSucceEdition);
             }
 
+            //comprobamos si hay idiamos para eliminar:
+            if (LanguagesToDelete.length > 0) {
+                // console.log("hay idiomas para eliminar");//-----
 
+                LanguagesToDelete.forEach((proflang) => {
+                    deleteProfessionalLanguage(proflang.id);
+                });
 
+                changes = true;
+            }
 
-            // actualizamos la lista en el home con los cambios en la paginacion que esté el usuario:
-            const prof = await getProfessionals(actualPage);
-            setProfessionalsList(prof.data.results);
+            //comprobamos si hay idiamos para agregar:
+            if (languagesToAdd.length > 0) {
+                // console.log("hay idiomas para agregar")//-----
+
+                languagesToAdd.forEach((lang) => {
+                    postProfessionalLanguage({
+                        professional_id: professional.id,
+                        language_id: lang.value
+                    });
+                });
+
+                changes = true;
+            }
+
+            //comprobamos si se efectuo algun cambio, mostramos el mensaje y actualizamos la lista en el home:
+            if (changes) {
+                setMsgSucceEdition(!msgSucceEdition);
+                const prof = await getProfessionals(actualPage);
+                setProfessionalsList(prof.data.results);
+            }
 
 
         }
@@ -386,6 +387,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                                 <p>Idiomas:</p>
                                 <Select
                                     mode="multiple"
+                                    size="large"
                                     showSearch
                                     optionFilterProp="children"
                                     labelInValue

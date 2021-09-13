@@ -326,9 +326,16 @@ function NewProfModal({ stateNewProfModal, openNewProfModal, setProfessionalsLis
                         <form onSubmit={(e) => { handleSubmit(e) }} className="form_modal_container"  >
                             <div className="form_modal_div" >
                                 <p>Imagen de perfil</p>
-                                {(stateErrors.profile_image ) ? <p className="p_error_msg" >Campo requerido, Seleccione una imagen.</p> : null}
+                                {(stateErrors.profile_image) ? <p className="p_error_msg" >Campo requerido, Seleccione una imagen.</p> : null}
                                 {(errorResponse.profile_image && errorResponse.profile_image[0] !== "") ? <p className="p_error_msg" >{errorResponse.profile_image[0]}</p> : null}
                                 <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => { handleProfileImage(e) }} />
+                                {
+                                    ( stateValues.profile_image && stateValues.profile_image !== "")
+                                        ?
+                                        <img src={URL.createObjectURL(stateValues.profile_image)} className="img_delet_modal" />
+                                        :
+                                        null
+                                }
                             </div>
 
                             <div className="form_modal_div" >
