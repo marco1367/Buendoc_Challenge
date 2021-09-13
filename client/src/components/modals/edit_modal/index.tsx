@@ -69,7 +69,6 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
 
 
-
     //----------UseEfect:(initial data load)---------//
     useEffect((): void => {
         (async () => {
@@ -152,6 +151,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
 
 
     function handleChangeSelect(values: any): void {
+        console.log(values);//-----
         setSelectProfLangValues(values);
     }
 
@@ -241,6 +241,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                 LanguagesToDelete = LanguagesToDelete.filter(lang => lang.language.id !== lang1.id_language)
             });
         }
+        console.log(LanguagesToDelete);//-----
 
 
         //idiomas a agregar:
@@ -248,6 +249,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
         LanguagesNoDelete.forEach(lang1 => {
             languagesToAdd = languagesToAdd.filter(lang2 => lang2.value !== lang1.id_language);
         });
+        console.log(languagesToAdd);//-----
 
 
 

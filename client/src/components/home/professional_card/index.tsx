@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import DetailModal from "../../modals/detail_modal";
 import DeleteModal from "../../modals/delete_modal";
 import EditProfModal from "../../modals/edit_modal";
+//import ant Design icons:
+import { EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 
 
 
@@ -48,9 +50,9 @@ function ProfessionalCard( {professional, professionals, actualPage, setProfessi
             <div className="professional_card_div" > {professional.is_active ? "Activo" : "No activo"} </div>
 
             <div className="professional_card_div" id="professional_card_img_container" >
-                <img src={penciledit} className="img_card" onClick={()=>{openEditlModal()}} />
-                <img src={eyewatch} className="img_card" onClick={()=>{openDetailModal()}} />
-                <img src={dele} className="img_card"  onClick={()=>{openDeletelModal()}} />
+                <EditOutlined style={{color:"#8c8c8c", fontSize:"25px"}} onClick={()=>{openEditlModal()}} />
+                <EyeOutlined style={{color:"#8c8c8c", fontSize:"25px"}} onClick={()=>{openDetailModal()}} />
+                <DeleteOutlined style={{color:"#8c8c8c", fontSize:"25px"}} onClick={()=>{openDeletelModal()}} />
             </div>
 
 
