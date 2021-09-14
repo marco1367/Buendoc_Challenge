@@ -15,6 +15,7 @@ Tecnologías:
 -React.Js
 -reactstrap (para los modales).
 -axios (para las peticiones asyncronas a la API).
+-Ant Design
 -html5
 -css3 puro (No utilicé SASS ni LESS por falta de tiempo, pero hubiera sido lo ideal).
 
