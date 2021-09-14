@@ -2,7 +2,6 @@ import "./index.css";
 import { useEffect, useState } from "react";
 import { Button, Modal, ModalBody } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css"
-// import Select from "react-select";
 //import interfaces:
 import { editModalProps, selectlanguagesOptions, Languages, ResponseAxiosProfessionalsLnaguages } from "../../../interfaces";
 //import functions requests:
@@ -11,7 +10,8 @@ import { PatchProfessional, getProfessionals, getLanguages, getProfessionalsLang
 import { modalStyle, modalBody } from "../styles"
 //importaqmos componente Select de antds:
 import 'antd/dist/antd.css';
-import { Select } from 'antd';
+import { Select, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 
 interface selectProfLangValuesinterf {
@@ -132,21 +132,48 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
     }
 
 
-    function handleProfileImage(e: any): void {
-        console.log(e.target.files);//-----
+    // function handleProfileImage(e: any): void {
+    //     // console.log(e.target.files);//-----
 
-        if (e.target.files.length === 0) {
+    //     if (e.target.files.length === 0) {
+    //         setStateValues({
+    //             ...stateValues,
+    //             profile_image: ""
+    //         })
+    //     } else {
+    //         console.log(e.target.files[0]);//-----
+    //         setStateValues({
+    //             ...stateValues,
+    //             profile_image: e.target.files[0]
+    //         })
+    //     }
+
+    // }
+
+    function handleChangeImgAnt(info: any) {
+        // console.log(info.file);//-----
+
+        // if (info.file.status !== 'uploading') {
+        //     console.log(info.file);
+        // }
+
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+            setStateValues({
+                ...stateValues,
+                profile_image: info.file.originFileObj
+            })
+
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+
+        if (info.file.status === "removed") {
             setStateValues({
                 ...stateValues,
                 profile_image: ""
             })
-        } else {
-            setStateValues({
-                ...stateValues,
-                profile_image: e.target.files[0]
-            })
         }
-
     }
 
 
@@ -257,7 +284,7 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
         if (!errors.first_name && !errors.last_name && !errors.email) {
             // console.log("No hay errores");//-----
 
-            let changes:boolean = false; //variable para saber si se realizaron cambios.
+            let changes: boolean = false; //variable para saber si se realizaron cambios.
 
             //comprobamos si se ingresó info en los imputs:
             if (stateValues.profile_image !== "" || stateValues.first_name !== "" || stateValues.last_name !== "" || stateValues.email !== "") {
@@ -283,8 +310,8 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                 if (!response.data && Object.values(response).length > 0) {
                     setErrorResponse(response);
                     return; //cortamos la ejecucion.
-                }else{
-                    changes =true;
+                } else {
+                    changes = true;
                 }
 
             }
@@ -348,11 +375,22 @@ function EditProfModal({ openEditlModal, stateEditModal, professional, professio
                         <div className="msg_exito" > <h3>Cambios realizados con éxito.</h3> </div>
                         :
                         <form onSubmit={(e) => { handleSubmit(e) }} className="form_modal_container" >
+
                             <div className="form_modal_div" >
                                 <p>Imagen de perfil</p>
                                 <div className="div_file_img_delete_modal" >
                                     {(stateErrors.profile_image) ? <p className="p_error_msg" >seleccione una imagen png o jpg</p> : null}
-                                    <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => handleProfileImage(e)} />
+
+                                    {/* <input type="file" name="profile_image " accept="image/png, image/jpeg" onChange={(e) => handleProfileImage(e)} /> */}
+                                    <Upload
+                                        accept=".jpg, .jpeg, .png"
+                                        name="file"
+                                        maxCount={1}
+                                        action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                                        onChange={file => handleChangeImgAnt(file)}
+                                    > <Button type="button" id="bttn_upLoad_img" > <UploadOutlined style={{ color: "grey" }} 
+                                    /> <p>Subir imagen de perfil</p>  </Button> </Upload>
+
                                     {
                                         stateValues.profile_image !== ""
                                             ?
